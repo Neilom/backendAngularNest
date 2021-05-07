@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateAndressDto } from './dto/create-andress.dto';
 import { UpdateAndressDto } from './dto/update-andress.dto';
+import { Andress } from './entities/andress.entity';
 
 @Injectable()
 export class AndressService {
+  constructor(
+    @InjectRepository(Andress)
+    private andressRepository: Repository<Andress>
+  ) { }
+
   create(createAndressDto: CreateAndressDto) {
-    return 'This action adds a new andress';
+    try {
+      this.andressRepository.save(createAndressDto)
+    } catch (error) {
+      console.log(error)
+    } 
+    return 
   }
 
   findAll() {
-    return `This action returns all andress`;
+    return this.andressRepository.find()
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} andress`;
+    return this.andressRepository.findOne(id)
   }
 
   update(id: number, updateAndressDto: UpdateAndressDto) {
-    return `This action updates a #${id} andress`;
+    return this.andressRepository.update(id, updateAndressDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} andress`;
+    return this.andressRepository.delete(id)
   }
 }

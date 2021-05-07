@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToMany, OneToMany, ManyToOne } from 'typeorm'
 import { Pessoa } from '../../pessoa/entities/pessoa.entity'
 
 
@@ -6,6 +6,9 @@ import { Pessoa } from '../../pessoa/entities/pessoa.entity'
 export class Andress {
   @PrimaryGeneratedColumn()
   id: number
+
+  @Column()
+  cep:string
 
   @Column()
   street:string
@@ -22,7 +25,7 @@ export class Andress {
   @Column()
   city:string
 
-  @OneToOne(type => Pessoa)
+  @ManyToOne(() => Pessoa, (pessoa) => pessoa.id)
   @JoinColumn()
   pessoa: Pessoa
 }
