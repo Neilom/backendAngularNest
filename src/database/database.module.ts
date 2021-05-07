@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Blog } from '../blog/blog.entity'
+import { Andress } from 'src/andress/entities/andress.entity';
+import { Pessoa } from 'src/pessoa/entities/pessoa.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -10,7 +11,7 @@ import { Blog } from '../blog/blog.entity'
     username: 'postgres',
     password: 'postgres',
     database: 'teste1',
-    entities: [Blog],
+    entities: [Pessoa, Andress],
     synchronize:true,
   })]
 })
