@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { response } from 'express';
 import { Repository } from 'typeorm';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
@@ -17,7 +18,7 @@ export class PessoaService {
   }
 
   async findAll(): Promise<Pessoa[]> {
-    return await this.pessoaRepository.find()
+    return await this.pessoaRepository.find({order:{name:"ASC"}})
   }
 
   async findOne(id: number) {
@@ -29,6 +30,14 @@ export class PessoaService {
   }
 
   async remove(id: number) {
+    try {
     return await this.pessoaRepository.delete(id)
+    } catch (error) {
+      if(error.constraint == 'FK_f46d2ac3b0820403c7e5582e601'){
+        throw new ConflictException("Necessário deletar os endereços")
+      } else {
+        throw error
+      }
+    }
   }
 }

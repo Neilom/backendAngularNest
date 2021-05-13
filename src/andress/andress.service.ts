@@ -13,16 +13,12 @@ export class AndressService {
   ) { }
 
   create(createAndressDto: CreateAndressDto) {
-    try {
-      this.andressRepository.save(createAndressDto)
-    } catch (error) {
-      console.log(error)
-    } 
-    return 
+    this.andressRepository.save(createAndressDto)
+    return
   }
 
-  findAll() {
-    return this.andressRepository.find()
+  findAll(pessoa?) {
+    return this.andressRepository.find(pessoa != null ? { pessoa: pessoa} : null )
   }
 
   findOne(id: number) {
@@ -36,4 +32,11 @@ export class AndressService {
   remove(id: number) {
     return this.andressRepository.delete(id)
   }
+
+  findEndereco(pessoaid) {
+    return this.andressRepository.find({ pessoa: pessoaid })
+  }
+
+
+
 }
